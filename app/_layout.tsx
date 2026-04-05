@@ -5,6 +5,11 @@ import { View, Text, StyleSheet, Animated, Dimensions, Image } from 'react-nativ
 import { AuthProvider } from '../context/AuthContext';
 import { COLORS as C } from '../constants';
 import * as Updates from 'expo-updates';
+import * as NativeSplash from 'expo-splash-screen';
+
+// Keep the native splash screen visible until we explicitly hide it.
+// This prevents the white flash between native splash and first JS paint.
+NativeSplash.preventAutoHideAsync();
 
 const { width, height } = Dimensions.get('window');
 
@@ -81,6 +86,12 @@ function SplashScreen({ onDone }: { onDone: () => void }) {
 
 export default function RootLayout() {
   const [splashDone, setSplashDone] = useState(false);
+
+  useEffect(() => {
+    // Hide the native splash now that the dark JS SplashScreen is painted.
+    // This is instant and seamless — no white frame ever shows.
+    NativeSplash.hideAsync();
+  }, []);
 
   useEffect(() => {
     async function checkUpdate() {
