@@ -15,7 +15,9 @@ function useAutoRedirect() {
     if (loaded && user) {
       router.replace('/(tabs)/home');
     }
-  }, [loaded, user]);
+    // Only run when loaded flips to true — not on every background server sync
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loaded]);
   return { loaded, user };
 }
 
