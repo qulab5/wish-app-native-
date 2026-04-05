@@ -8,10 +8,22 @@ import { router } from 'expo-router';
 import { useAuth } from '../context/AuthContext';
 import { COLORS as C, API_BASE, APP_NAME, APP_TAGLINE, COUNTRIES, DEMO_USERS, REF_SIGNUP_BONUS } from '../constants';
 
+// Auto-redirect hook: if a saved session exists, skip the login screen
+function useAutoRedirect() {
+  const { user, loaded } = useAuth();
+  useEffect(() => {
+    if (loaded && user) {
+      router.replace('/(tabs)/home');
+    }
+  }, [loaded, user]);
+  return { loaded, user };
+}
+
 const { width, height } = Dimensions.get('window');
 
 export default function SignInScreen() {
   const { setUser } = useAuth();
+  const { loaded } = useAutoRedirect();
   const [mode, setMode] = useState<'welcome' | 'login' | 'register'>('welcome');
   const [form, setForm] = useState({
     name: '', username: '', email: '', phone: '',
@@ -237,6 +249,11 @@ export default function SignInScreen() {
       sendOtp(nu);
     }
   };
+
+  // While AsyncStorage is loading, show nothing to avoid login screen flash
+  if (!loaded) {
+    return <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}><ActivityIndicator color={C.brand} size="large" /></View>;
+  }
 
   // ── OTP Screen ──
   if (otpStep) {

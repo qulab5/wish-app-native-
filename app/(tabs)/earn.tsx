@@ -82,6 +82,11 @@ export default function EarnScreen() {
   const [spinning, setSpinning] = useState(false);
   const [spinsLeft, setSpinsLeft] = useState(user?.spinsLeft ?? 1);
   const [lastWin, setLastWin] = useState<number | null>(null);
+
+  // Sync spinsLeft when user loads from storage or server
+  useEffect(() => {
+    if (user?.spinsLeft != null) setSpinsLeft(user.spinsLeft);
+  }, [user?.spinsLeft]);
   const rotation = useRef(new Animated.Value(0)).current;
   const currentRotation = useRef(0);
 

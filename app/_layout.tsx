@@ -95,17 +95,18 @@ export default function RootLayout() {
     checkUpdate();
   }, []);
 
-  if (!splashDone) {
-    return <SplashScreen onDone={() => setSplashDone(true)} />;
-  }
-
   return (
     <AuthProvider>
       <StatusBar style="light" />
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="(tabs)" />
-      </Stack>
+      {!splashDone
+        ? <SplashScreen onDone={() => setSplashDone(true)} />
+        : (
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="index" />
+            <Stack.Screen name="(tabs)" />
+          </Stack>
+        )
+      }
     </AuthProvider>
   );
 }

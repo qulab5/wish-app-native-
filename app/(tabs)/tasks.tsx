@@ -33,6 +33,11 @@ export default function TasksScreen() {
   const { user, updateUser } = useAuth();
   const [done, setDone] = useState<Record<string, boolean>>(user?.tasksDone || {});
 
+  // Sync done state when user loads from storage or server
+  useEffect(() => {
+    if (user?.tasksDone) setDone(user.tasksDone);
+  }, [user?.tasksDone]);
+
   const completeTask = async (task: Task) => {
     if (done[task.id]) return;
     if (task.url) {

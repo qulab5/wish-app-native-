@@ -32,6 +32,15 @@ export default function HomeScreen() {
   const tokens = user?.tokens ?? 0;
   const spinsLeft = user?.spinsLeft ?? 1;
 
+  // Sync local state when user loads from storage or server
+  useEffect(() => {
+    setMineStart(user?.mineStart ?? null);
+  }, [user?.mineStart]);
+
+  useEffect(() => {
+    if (user?.boostsLeft != null) setBoostsLeft(user.boostsLeft);
+  }, [user?.boostsLeft]);
+
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
