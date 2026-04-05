@@ -1,0 +1,69 @@
+export const API_BASE = 'https://wish-app-theta.vercel.app';
+export const APP_NAME = 'Wish Network';
+export const APP_TAGLINE = 'Mine Your Way to Your Wish ✦';
+
+export const PTS_PER_TOKEN = 1000;
+export const REF_SIGNUP_BONUS = 2000;
+export const REF_MINE_PCT = 0.10;
+export const MINE_SESSION_S = 4 * 60 * 60;
+export const MINE_PTS_HOUR = 2000;
+export const MINE_BOOST_PTS = 500;
+export const MINE_MAX_BOOST = 5;
+
+export const SPIN_PTS = [500, 1000, 1500, 2000, 2500, 3000, 3500, 20000];
+
+export const DAILY_PTS_MAP: Record<number, number> = {
+  1:80,2:55,3:70,4:45,5:90,6:60,7:120,8:50,9:75,10:65,
+  11:85,12:55,13:95,14:40,15:110,16:70,17:60,18:80,19:50,20:100,
+  21:45,22:75,23:65,24:90,25:55,26:85,27:70,28:60,29:95,30:80,31:115,
+};
+
+export const COLORS = {
+  bg: '#0d0b1e',
+  s1: '#13102a',
+  s2: '#191534',
+  s3: '#211d42',
+  border: 'rgba(139,92,246,0.13)',
+  border2: 'rgba(139,92,246,0.25)',
+  brand: '#8b5cf6',
+  brandLt: '#a78bfa',
+  brandDk: '#6d28d9',
+  pink: '#ec4899',
+  cyan: '#06b6d4',
+  gold: '#f59e0b',
+  goldLt: '#fbbf24',
+  green: '#10b981',
+  greenLt: '#34d399',
+  red: '#ef4444',
+  muted: 'rgba(255,255,255,0.40)',
+  white: '#fff',
+};
+
+export const COUNTRIES = [
+  { code: '+1', flag: '🇺🇸', name: 'United States' },
+  { code: '+1', flag: '🇨🇦', name: 'Canada' },
+  { code: '+44', flag: '🇬🇧', name: 'United Kingdom' },
+  { code: '+61', flag: '🇦🇺', name: 'Australia' },
+  { code: '+49', flag: '🇩🇪', name: 'Germany' },
+  { code: '+33', flag: '🇫🇷', name: 'France' },
+  { code: '+91', flag: '🇮🇳', name: 'India' },
+  { code: '+92', flag: '🇵🇰', name: 'Pakistan' },
+  { code: '+966', flag: '🇸🇦', name: 'Saudi Arabia' },
+  { code: '+971', flag: '🇦🇪', name: 'UAE' },
+  { code: '+86', flag: '🇨🇳', name: 'China' },
+  { code: '+81', flag: '🇯🇵', name: 'Japan' },
+  { code: '+82', flag: '🇰🇷', name: 'South Korea' },
+  { code: '+55', flag: '🇧🇷', name: 'Brazil' },
+  { code: '+52', flag: '🇲🇽', name: 'Mexico' },
+  { code: '+20', flag: '🇪🇬', name: 'Egypt' },
+  { code: '+27', flag: '🇿🇦', name: 'South Africa' },
+  { code: '+234', flag: '🇳🇬', name: 'Nigeria' },
+  { code: '+7', flag: '🇷🇺', name: 'Russia' },
+  { code: '+65', flag: '🇸🇬', name: 'Singapore' },
+];
+
+export const DEMO_USERS = [
+  { id: 'u1', name: 'Ahmad Ali', email: 'ahmad@wish.com', pass: 'ahmad123', pts: 48200, tokens: 48, joined: 'Jan 2025', country: '🇵🇰', isAdmin: false, active: true, role: 'user' },
+  { id: 'u2', name: 'Sara Khan', email: 'sara@wish.com', pass: 'sara123', pts: 41500, tokens: 41, joined: 'Feb 2025', country: '🇮🇳', isAdmin: false, active: true, role: 'user' },
+  { id: 'admin', name: 'Admin', email: 'admin@wish.com', pass: 'admin@123', pts: 0, tokens: 0, joined: 'Jan 2025', country: '🌍', isAdmin: true, active: true, role: 'super_admin' },
+];

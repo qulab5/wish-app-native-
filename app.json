@@ -1,9 +1,52 @@
 {
   "expo": {
+    "name": "Wish Network",
+    "slug": "wish-network",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "scheme": "wishnetwork",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0a0915"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.wishnetwork.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#0a0915"
+      },
+      "package": "com.wishnetwork.app"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-dev-client",
+      "expo-font"
+    ],
     "extra": {
+      "router": {
+        "origin": false
+      },
       "eas": {
         "projectId": "e7762bc1-83d3-4c0e-8d8f-8280047eb2ea"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e7762bc1-83d3-4c0e-8d8f-8280047eb2ea"
     }
   }
 }
