@@ -33,7 +33,15 @@
     "plugins": [
       "expo-router",
       "expo-dev-client",
-      "expo-font"
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "./node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/Ionicons.ttf",
+            "./node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"
+          ]
+        }
+      ]
     ],
     "extra": {
       "router": {
@@ -48,6 +56,7 @@
     },
     "updates": {
       "url": "https://u.expo.dev/e7762bc1-83d3-4c0e-8d8f-8280047eb2ea"
-    }
+    },
+    "owner": "qulab_5"
   }
 }

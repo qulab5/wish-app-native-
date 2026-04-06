@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity,
   Linking, Alert,
@@ -33,7 +33,6 @@ export default function TasksScreen() {
   const { user, updateUser } = useAuth();
   const [done, setDone] = useState<Record<string, boolean>>(user?.tasksDone || {});
 
-  // Sync done state when user loads from storage or server
   useEffect(() => {
     if (user?.tasksDone) setDone(user.tasksDone);
   }, [user?.tasksDone]);

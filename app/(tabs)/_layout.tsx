@@ -1,5 +1,4 @@
 import { Tabs } from 'expo-router';
-import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { COLORS as C } from '../../constants';
 

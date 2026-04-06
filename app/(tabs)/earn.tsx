@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, Animated, Easing,
   Alert, ScrollView, Dimensions,
@@ -83,10 +83,10 @@ export default function EarnScreen() {
   const [spinsLeft, setSpinsLeft] = useState(user?.spinsLeft ?? 1);
   const [lastWin, setLastWin] = useState<number | null>(null);
 
-  // Sync spinsLeft when user loads from storage or server
   useEffect(() => {
     if (user?.spinsLeft != null) setSpinsLeft(user.spinsLeft);
   }, [user?.spinsLeft]);
+
   const rotation = useRef(new Animated.Value(0)).current;
   const currentRotation = useRef(0);
 
@@ -155,12 +155,10 @@ export default function EarnScreen() {
           </Text>
           <Text style={styles.sub}>Win 500 – 20,000 pts per spin!</Text>
 
-          {/* Pointer */}
           <View style={{ alignItems: 'center', marginTop: 16, marginBottom: -8, zIndex: 2 }}>
             <View style={styles.pointer} />
           </View>
 
-          {/* Wheel */}
           <View style={{ alignItems: 'center', marginVertical: 8 }}>
             <SpinWheelSvg rotation={rotation} />
           </View>
@@ -182,7 +180,6 @@ export default function EarnScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Earn More Spins */}
         <View style={[styles.card, { marginTop: 12 }]}>
           <Text style={styles.cardTitle}>Earn More Spins</Text>
           <Text style={styles.sub}>Complete tasks and watch ads to earn more spin chances</Text>
