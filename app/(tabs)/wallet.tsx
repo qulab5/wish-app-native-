@@ -27,6 +27,7 @@ export default function WalletScreen() {
   const [sendAmt, setSendAmt] = useState('');
 
   useEffect(() => {
+    if (!user) return;
     loadTx();
     if (user?.walletAddress) {
       setWallet(user.walletAddress);

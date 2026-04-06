@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, StyleSheet, Animated, Dimensions, Image } from 'react-native';
@@ -9,9 +9,9 @@ import * as Updates from 'expo-updates';
 const { width, height } = Dimensions.get('window');
 
 function SplashScreen({ onDone }: { onDone: () => void }) {
-  const scaleAnim = new Animated.Value(0.6);
-  const opacityAnim = new Animated.Value(0);
-  const swingAnim = new Animated.Value(0);
+  const scaleAnim = useRef(new Animated.Value(0.6)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
+  const swingAnim = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     Animated.parallel([

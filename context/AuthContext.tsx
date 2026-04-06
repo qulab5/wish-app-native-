@@ -42,14 +42,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUserState] = useState<User | null>(null);
   const [loaded, setLoaded] = useState(false);
 
+  // Persist user to AsyncStorage on every change.
+  // This is the ONLY place we write to storage — no side effects in state updaters.
+  useEffect(() => {
+    if (user) {
+      Storage.set('last_user', user);
+    } else {
+      Storage.remove('last_user');
+    }
+  }, [user]);
+
+  // Load user from storage on startup, then sync fresh data from server in background.
   useEffect(() => {
     Storage.get('last_user', null).then((cached: User | null) => {
       if (cached) setUserState(cached);
-      // Mark loaded immediately after storage read — do NOT wait for the server.
-      // This means the user is never stuck on a spinner due to network latency.
       setLoaded(true);
 
-      // Server sync runs fully in background after the app is already usable.
       if (cached) {
         fetch(`${API_BASE}/api/user?email=${encodeURIComponent(cached.email)}`)
           .then(r => r.json())
@@ -57,44 +65,38 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (d.user) {
               setUserState(prev => {
                 if (!prev) return prev;
-                const merged = {
+                return {
                   ...prev,
                   ...d.user,
-                  // Never let the server overwrite an active local mining session.
-                  // The server may have a stale null if the POST during startMining
-                  // didn't reach it, so trust the local value.
+                  // Never let the server overwrite an active local mining session
                   mineStart: (typeof prev.mineStart === 'number')
                     ? prev.mineStart
                     : d.user.mineStart,
                   boostsLeft: prev.boostsLeft ?? d.user.boostsLeft,
                 };
-                Storage.set('last_user', merged);
-                return merged;
               });
             }
           })
-          .catch(() => {}); // silent — cached data is still valid offline
+          .catch(() => {});
       }
     });
   }, []);
 
+  // Pure state setter — storage is handled by the useEffect above
   const setUser = (u: User | null) => {
     setUserState(u);
-    if (u) Storage.set('last_user', u);
-    else Storage.remove('last_user');
   };
 
+  // Pure updater — no async side effects, no Storage calls
   const updateUser = (updates: Partial<User>) => {
     setUserState(prev => {
       if (!prev) return prev;
-      const updated = { ...prev, ...updates };
-      Storage.set('last_user', updated);
-      return updated;
+      return { ...prev, ...updates };
     });
   };
 
   const logout = () => {
-    setUser(null);
+    setUserState(null);
   };
 
   return (
