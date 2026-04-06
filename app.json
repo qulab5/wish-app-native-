@@ -24,7 +24,8 @@
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#0a0915"
       },
-      "package": "com.wishnetwork.app"
+      "package": "com.wishnetwork.app",
+      "backgroundColor": "#0a0915"
     },
     "web": {
       "bundler": "metro"
