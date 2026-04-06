@@ -42,22 +42,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUserState] = useState<User | null>(null);
   const [loaded, setLoaded] = useState(false);
 
-  // Persist user to AsyncStorage on every change.
-  // This is the ONLY place we write to storage — no side effects in state updaters.
-  useEffect(() => {
-    if (user) {
-      Storage.set('last_user', user);
-    } else {
-      Storage.remove('last_user');
-    }
-  }, [user]);
-
-  // Load user from storage on startup, then sync fresh data from server in background.
+  // ── Step 1: Read from storage on startup ──────────────────────────────────
   useEffect(() => {
     Storage.get('last_user', null).then((cached: User | null) => {
       if (cached) setUserState(cached);
       setLoaded(true);
 
+      // Server sync in background — never blocks the UI
       if (cached) {
         fetch(`${API_BASE}/api/user?email=${encodeURIComponent(cached.email)}`)
           .then(r => r.json())
@@ -68,7 +59,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 return {
                   ...prev,
                   ...d.user,
-                  // Never let the server overwrite an active local mining session
+                  // Preserve active mining session — server may have stale null
                   mineStart: (typeof prev.mineStart === 'number')
                     ? prev.mineStart
                     : d.user.mineStart,
@@ -82,12 +73,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  // Pure state setter — storage is handled by the useEffect above
+  // ── Step 2: Persist to storage whenever user changes ─────────────────────
+  // IMPORTANT: guard with `loaded` so this does NOT run on initial mount
+  // when user=null. Without the guard it would wipe storage before Step 1
+  // has a chance to read it, logging the user out on every app open.
+  useEffect(() => {
+    if (!loaded) return;
+    if (user) {
+      Storage.set('last_user', user);
+    } else {
+      Storage.remove('last_user');
+    }
+  }, [user, loaded]);
+
+  // Pure setter — no Storage calls here, handled by the effect above
   const setUser = (u: User | null) => {
     setUserState(u);
   };
 
-  // Pure updater — no async side effects, no Storage calls
+  // Pure updater — no async side effects inside the state updater
   const updateUser = (updates: Partial<User>) => {
     setUserState(prev => {
       if (!prev) return prev;
